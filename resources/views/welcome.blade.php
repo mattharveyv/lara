@@ -23,11 +23,11 @@
     }
 
     .hero-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #111111 0%, #3a3a3a 100%);
         color: white;
         border-radius: 16px;
         padding: 2rem;
-        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.25);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.14);
         text-align: center;
     }
 
@@ -45,12 +45,23 @@
     }
 
     .product-card {
-        background: #f8f9fa;
-        border: 1px solid #eaeaea;
+        background: #f8f8f8;
+        border: 1px solid #e5e5e5;
         border-radius: 14px;
         padding: 1.25rem;
         text-align: center;
         transition: transform 0.2s ease;
+    }
+
+    .product-tag {
+        display: inline-block;
+        background: #ececec;
+        color: #111111;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.7rem;
+        border-radius: 999px;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
     }
 
     .product-card:hover {
@@ -92,13 +103,13 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: #667eea;
+        background: #111111;
         color: white;
         padding: 0.75rem 1rem;
         border-radius: 999px;
         text-decoration: none;
         font-weight: 700;
-        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     }
 
     .cart-count {
@@ -116,7 +127,7 @@
     .add-cart {
         margin-top: 0.75rem;
         display: inline-block;
-        background: #764ba2;
+        background: #111111;
         color: white;
         border: none;
         border-radius: 8px;
@@ -139,10 +150,11 @@
 
 @section('content')
 <div class="cart-bar">
-    <a href="/contact" class="cart-button" aria-label="Shopping cart">
+    <a href="/orders" class="btn btn-secondary" style="margin-right:0.75rem;">Order History</a>
+    <a href="/cart" class="cart-button" aria-label="Shopping cart">
         <span>🛒</span>
         <span>Cart</span>
-        <span class="cart-count">3</span>
+        <span class="cart-count">{{ $cartCount ?? 0 }}</span>
     </a>
 </div>
 
@@ -161,44 +173,35 @@
         <h2 style="color:white; margin-bottom:1rem;">Flash Sale</h2>
         <p style="color:rgba(255,255,255,0.9);">Limited-time offer on top-rated devices.</p>
         <div class="hero-price">$199</div>
-        <a href="/contact" class="btn" style="background:white; color:#667eea; border-color:white;">Buy Now</a>
+        <form method="POST" action="/cart/add" style="display:inline-block;">
+            @csrf
+            <input type="hidden" name="name" value="Flash Deal Bundle">
+            <input type="hidden" name="price" value="199">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="btn" style="background:white; color:#667eea; border-color:white;">Buy Now</button>
+        </form>
     </div>
 </div>
 
 <div>
     <h2 style="text-align:center; color:#667eea; margin-top:2rem; margin-bottom:1rem;">Featured Products</h2>
     <div class="product-grid">
-        <div class="product-card">
-            <div class="product-image">🎧</div>
-            <h3>Wireless Headphones</h3>
-            <p>Rich sound and all-day comfort.</p>
-            <div class="price">$79</div>
-            <a href="/contact" class="add-cart">Add to Cart</a>
-        </div>
-
-        <div class="product-card">
-            <div class="product-image">⌚</div>
-            <h3>Smart Watch</h3>
-            <p>Track health and stay connected.</p>
-            <div class="price">$129</div>
-            <a href="/contact" class="add-cart">Add to Cart</a>
-        </div>
-
-        <div class="product-card">
-            <div class="product-image">📱</div>
-            <h3>Smartphone</h3>
-            <p>Powerful camera and fast performance.</p>
-            <div class="price">$249</div>
-            <a href="/contact" class="add-cart">Add to Cart</a>
-        </div>
-
-        <div class="product-card">
-            <div class="product-image">💻</div>
-            <h3>Laptop</h3>
-            <p>Performance built for work and play.</p>
-            <div class="price">$699</div>
-            <a href="/contact" class="add-cart">Add to Cart</a>
-        </div>
+        @foreach($products as $product)
+            <div class="product-card">
+                <div class="product-tag">{{ $product['tag'] }}</div>
+                <div class="product-image">{{ $product['icon'] }}</div>
+                <h3>{{ $product['name'] }}</h3>
+                <p>High-quality product for work and everyday use.</p>
+                <div class="price">${{ $product['price'] }}</div>
+                <form method="POST" action="/cart/add">
+                    @csrf
+                    <input type="hidden" name="name" value="{{ $product['name'] }}">
+                    <input type="hidden" name="price" value="{{ $product['price'] }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="add-cart">Add to Cart</button>
+                </form>
+            </div>
+        @endforeach
     </div>
 </div>
 @endsection
