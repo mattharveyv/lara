@@ -81,6 +81,50 @@
         margin-top: 2rem;
     }
 
+    .cart-bar {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+    }
+
+    .cart-button {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #667eea;
+        color: white;
+        padding: 0.75rem 1rem;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+    }
+
+    .cart-count {
+        background: #ff6b6b;
+        color: white;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+    }
+
+    .add-cart {
+        margin-top: 0.75rem;
+        display: inline-block;
+        background: #764ba2;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
     @media (max-width: 768px) {
         .hero {
             grid-template-columns: 1fr;
@@ -94,6 +138,14 @@
 @endsection
 
 @section('content')
+<div class="cart-bar">
+    <a href="/contact" class="cart-button" aria-label="Shopping cart">
+        <span>🛒</span>
+        <span>Cart</span>
+        <span class="cart-count">3</span>
+    </a>
+</div>
+
 <div class="hero">
     <div class="hero-copy">
         <h1>{{ $title ?? 'Shop the Latest Deals' }}</h1>
@@ -121,7 +173,7 @@
             <h3>Wireless Headphones</h3>
             <p>Rich sound and all-day comfort.</p>
             <div class="price">$79</div>
-            <a href="/contact" class="btn">Order</a>
+            <a href="/contact" class="add-cart">Add to Cart</a>
         </div>
 
         <div class="product-card">
@@ -129,7 +181,7 @@
             <h3>Smart Watch</h3>
             <p>Track health and stay connected.</p>
             <div class="price">$129</div>
-            <a href="/contact" class="btn">Order</a>
+            <a href="/contact" class="add-cart">Add to Cart</a>
         </div>
 
         <div class="product-card">
@@ -137,7 +189,7 @@
             <h3>Smartphone</h3>
             <p>Powerful camera and fast performance.</p>
             <div class="price">$249</div>
-            <a href="/contact" class="btn">Order</a>
+            <a href="/contact" class="add-cart">Add to Cart</a>
         </div>
 
         <div class="product-card">
@@ -145,7 +197,7 @@
             <h3>Laptop</h3>
             <p>Performance built for work and play.</p>
             <div class="price">$699</div>
-            <a href="/contact" class="btn">Order</a>
+            <a href="/contact" class="add-cart">Add to Cart</a>
         </div>
     </div>
 </div>

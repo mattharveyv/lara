@@ -23,4 +23,13 @@ class StorefrontTest extends TestCase
         $response->assertSee('Contact Us');
         $response->assertSee('Send us a Message');
     }
+
+    public function test_home_page_has_cart_button(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertSee('Cart');
+        $response->assertSee('Add to Cart');
+    }
 }
